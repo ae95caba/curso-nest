@@ -5,15 +5,20 @@ export interface Task {
 }
 @Injectable()
 export class TasksService {
+  private tasks = [];
   getTasks(): Task[] {
-    return [
-      { name: 'Task 1', description: 'This is the first task.' },
-      { name: 'Task 2', description: 'This is the second task.' },
-      // Add more tasks as needed
-    ];
+    return this.tasks;
   }
-  createTask() {
-    return 'task creada';
+  getTask(id: number): any {
+    const taskFound = this.tasks.find((task) => task.id == id);
+    if (!taskFound) {
+      return 'no se encontro la tarea';
+    }
+    return taskFound;
+  }
+  createTask(task: any) {
+    this.tasks.push({ ...task, id: this.tasks.length + 1 });
+    return task;
   }
   updateTask() {
     return 'task actualizada';
