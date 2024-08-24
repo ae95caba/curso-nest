@@ -7,10 +7,13 @@ import {
   Body,
   Query,
   Param,
+  ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update_task.dto';
+import { AuthGuard } from 'src/guards/auth/auth.guard';
 
 @Controller('/tasks')
 export class TasksController {
@@ -21,11 +24,12 @@ export class TasksController {
     return this.tasksService.getTasks();
   }
   @Get('/:id')
-  getTask(@Param('id') id: string) {
+  getTask(@Param('id', ParseIntPipe) id: number) {
     console.log(id);
-    return this.tasksService.getTask(parseInt(id));
+    return this.tasksService.getTask(id);
   }
   @Post()
+  @UseGuards(AuthGuard)
   createTask(@Body() task: CreateTaskDto) {
     return this.tasksService.createTask(task);
   }
