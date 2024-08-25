@@ -9,4 +9,4 @@ export class Task {
   description: string;
 }
 
-export const BookSchema = SchemaFactory.createForClass(Task);
+export const TaskSchema = SchemaFactory.createForClass(Task);

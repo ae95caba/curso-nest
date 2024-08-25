@@ -14,12 +14,13 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update_task.dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { Task } from './task.schema';
 
 @Controller('/tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
   @Get()
-  getTaks(@Query() query: any) {
+  async getTaks(@Query() query: any): Promise<Task[]> {
     console.log(query);
     return this.tasksService.getTasks();
   }
