@@ -19,7 +19,9 @@ export class TasksService {
   private tasks = [];
   async getTask(id: string): Promise<Task> {
     const task = await this.taskModel.findById(id);
-
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
     return task;
   }
   async createTask(task: Task): Promise<Task> {
