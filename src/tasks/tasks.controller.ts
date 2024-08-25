@@ -25,13 +25,13 @@ export class TasksController {
     return this.tasksService.getTasks();
   }
   @Get('/:id')
-  getTask(@Param('id', ParseIntPipe) id: number) {
+  async getTask(@Param('id') id: string): Promise<Task> {
     console.log(id);
     return this.tasksService.getTask(id);
   }
   @Post()
   @UseGuards(AuthGuard)
-  createTask(@Body() task: CreateTaskDto) {
+  async createTask(@Body() task: CreateTaskDto): Promise<Task> {
     return this.tasksService.createTask(task);
   }
   @Put()

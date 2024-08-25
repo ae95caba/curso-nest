@@ -17,16 +17,14 @@ export class TasksService {
     return tasks;
   }
   private tasks = [];
-  getTask(id: number): TaskDto | NotFoundException {
-    const taskFound = this.tasks.find((task) => task.id == id);
-    if (!taskFound) {
-      return new NotFoundException(`task with id ${id} not found`);
-    }
-    return taskFound;
-  }
-  createTask(task: CreateTaskDto) {
-    this.tasks.push({ ...task, id: this.tasks.length + 1 });
+  async getTask(id: string): Promise<Task> {
+    const task = await this.taskModel.findById(id);
+
     return task;
+  }
+  async createTask(task: Task): Promise<Task> {
+    const res = await this.taskModel.create(task);
+    return res;
   }
   updateTask(task: UpdateTaskDto) {
     console.log(task);
