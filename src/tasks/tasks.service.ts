@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update_task.dto';
 import { TaskDto } from './dto/task.dto';
@@ -16,8 +20,12 @@ export class TasksService {
 
     return tasks;
   }
-  private tasks = [];
+
   async getTask(id: string): Promise<Task> {
+    const isValidId = mongoose.isValidObjectId(id);
+    if (!isValidId) {
+      throw new BadRequestException('Please enter corrrect id');
+    }
     const task = await this.taskModel.findById(id);
     if (!task) {
       throw new NotFoundException('Task not found');
