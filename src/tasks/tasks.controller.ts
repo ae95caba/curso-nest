@@ -15,14 +15,15 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update_task.dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { Task } from './task.schema';
+import { Query as ExpressQuery } from 'express-serve-static-core';
 
 @Controller('/tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
   @Get()
-  async getTaks(@Query() query: any): Promise<Task[]> {
+  async getTaks(@Query() query: ExpressQuery): Promise<Task[]> {
     console.log(query);
-    return this.tasksService.getTasks();
+    return this.tasksService.getTasks(query);
   }
   @Get('/:id')
   async getTask(@Param('id') id: string): Promise<Task> {

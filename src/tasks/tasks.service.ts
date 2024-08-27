@@ -3,20 +3,22 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update_task.dto';
-import { TaskDto } from './dto/task.dto';
+
 import { InjectModel } from '@nestjs/mongoose';
 import { Task } from './task.schema';
 import mongoose from 'mongoose';
-
+import { Query as ExpressQuery } from 'express-serve-static-core';
 @Injectable()
 export class TasksService {
   constructor(
     @InjectModel(Task.name) private taskModel: mongoose.Model<Task>,
   ) {}
-  async getTasks(): Promise<Task[]> {
-    const tasks = await this.taskModel.find();
+  async getTasks(query: ExpressQuery): Promise<Task[]> {
+    console.log(query);
+    const keyword = query.keyword
+      ? { title: { $regex: query.keyword, $options: 'i' } }
+      : {};
+    const tasks = await this.taskModel.find({ ...keyword });
 
     return tasks;
   }
