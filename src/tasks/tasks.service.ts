@@ -15,10 +15,17 @@ export class TasksService {
   ) {}
   async getTasks(query: ExpressQuery): Promise<Task[]> {
     console.log(query);
+    const resPerPage = 2;
+    const currentPage = Number(query.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
     const keyword = query.keyword
       ? { title: { $regex: query.keyword, $options: 'i' } }
       : {};
-    const tasks = await this.taskModel.find({ ...keyword });
+    const tasks = await this.taskModel
+      .find({ ...keyword })
+      .limit(resPerPage)
+      .skip(skip);
 
     return tasks;
   }
