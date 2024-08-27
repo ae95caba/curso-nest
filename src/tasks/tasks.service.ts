@@ -34,7 +34,7 @@ export class TasksService {
       runValidators: true,
     });
   }
-  deleteTask() {
-    return 'task borrada';
+  async deleteTask(id: string): Promise<Task> {
+    return await this.taskModel.findByIdAndDelete(id);
   }
 }
