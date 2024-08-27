@@ -28,9 +28,11 @@ export class TasksService {
     const res = await this.taskModel.create(task);
     return res;
   }
-  updateTask(task: UpdateTaskDto) {
-    console.log(task);
-    return 'task actualizada';
+  async updateTask(id: string, task: Task): Promise<Task> {
+    return await this.taskModel.findByIdAndUpdate(id, task, {
+      new: true,
+      runValidators: true,
+    });
   }
   deleteTask() {
     return 'task borrada';
