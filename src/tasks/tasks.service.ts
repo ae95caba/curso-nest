@@ -14,7 +14,6 @@ export class TasksService {
     @InjectModel(Task.name) private taskModel: mongoose.Model<Task>,
   ) {}
   async getTasks(query: ExpressQuery): Promise<Task[]> {
-    console.log(query);
     const resPerPage = 2;
     const currentPage = Number(query.page) || 1;
     const skip = resPerPage * (currentPage - 1);
