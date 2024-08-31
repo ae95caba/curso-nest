@@ -9,6 +9,7 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -33,8 +34,9 @@ export class TasksController {
   }
   @Post()
   @UseGuards(AuthGuard())
-  async createTask(@Body() task: CreateTaskDto): Promise<Task> {
-    return this.tasksService.createTask(task);
+  async createTask(@Body() task: CreateTaskDto, @Req() req): Promise<Task> {
+    console.log(req.user);
+    return this.tasksService.createTask(task, req.user);
   }
   @Put(':id')
   async updateTask(

@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Task } from './task.schema';
 import mongoose from 'mongoose';
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import { User } from 'src/auth/schemas/user.schema';
 @Injectable()
 export class TasksService {
   constructor(
@@ -40,7 +41,8 @@ export class TasksService {
     }
     return task;
   }
-  async createTask(task: Task): Promise<Task> {
+  async createTask(task: Task, user: User): Promise<Task> {
+    const data = Object.assign(task, { user: user._id });
     const res = await this.taskModel.create(task);
     return res;
   }

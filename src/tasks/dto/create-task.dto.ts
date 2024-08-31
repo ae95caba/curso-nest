@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmpty, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { User } from 'src/auth/schemas/user.schema';
 export class CreateTaskDto {
   @IsNotEmpty()
   @IsString()
@@ -6,4 +7,6 @@ export class CreateTaskDto {
   @IsNotEmpty()
   @IsString()
   readonly description: string;
+  @IsEmpty({ message: 'Your cannot pass user id' })
+  readonly user: User;
 }
