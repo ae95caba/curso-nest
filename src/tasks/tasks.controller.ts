@@ -13,9 +13,10 @@ import {
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update_task.dto';
-import { AuthGuard } from 'src/guards/auth/auth.guard';
+
 import { Task } from './task.schema';
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('/tasks')
 export class TasksController {
@@ -31,7 +32,7 @@ export class TasksController {
     return this.tasksService.getTask(id);
   }
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard())
   async createTask(@Body() task: CreateTaskDto): Promise<Task> {
     return this.tasksService.createTask(task);
   }
